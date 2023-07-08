@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { BagCard } from "../../components";
 
 function Bag() {
-  const { bag, setPage , setBag} = useContext(StoreContext);
+  const { bag, setPage, setBag } = useContext(StoreContext);
 
   let total = bag.map((e) => e[3]).reduce((pre, cur) => pre + cur, 0);
 
@@ -31,10 +31,16 @@ function Bag() {
     return <BagCard key={data[0]} id={data[0]} brand={brand} txt={txt} img={data[2]} price={data[3]} />;
   });
 
-  function handleClick(){
-    toast("Thanks for the order !!");
-    setPage('thankyou');
-    setBag([])
+  function handleClick() {
+    const logedUser = JSON.parse(localStorage.getItem("loginDetails"));
+
+    if (logedUser === null) {
+      toast("Please Login First");
+    } else {
+      toast("Thanks for the order !!");
+      setPage('thankyou');
+      setBag([])
+    }
   }
 
   return (
@@ -44,7 +50,7 @@ function Bag() {
           <img
             src="https://constant.myntassets.com/checkout/assets/img/empty-bag.png"
             alt="bag_empty_image"
-            style={{ width: "145px", marginLeft:'-67px' }}
+            style={{ width: "145px", marginLeft: '-67px' }}
           />
           <div className="bag_heading">Hey, it feels so light!</div>
           <div className="bag_info">There is nothing in your bag. Let's add some items.</div>
